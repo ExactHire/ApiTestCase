@@ -237,7 +237,7 @@ abstract class ApiTestCase extends WebTestCase
         if (!$response->isSuccessful()) {
             $openCommand = isset($_SERVER['OPEN_BROWSER_COMMAND']) ? $_SERVER['OPEN_BROWSER_COMMAND'] : 'open %s';
             $tmpDir = isset($_SERVER['TMP_DIR']) ? $_SERVER['TMP_DIR'] : sys_get_temp_dir();
-            
+
             $filename = PathBuilder::build(rtrim($tmpDir, \DIRECTORY_SEPARATOR), uniqid() . '.html');
             file_put_contents($filename, $response->getContent());
             system(sprintf($openCommand, escapeshellarg($filename)));
@@ -273,7 +273,7 @@ abstract class ApiTestCase extends WebTestCase
         $this->assertSourceExists($source);
 
         $finder = new Finder();
-        $finder->files()->name('*.yml')->in($source);
+        $finder->files()->name('*.yml')->in($source)->sortByName();
 
         if (0 === $finder->count()) {
             throw new \RuntimeException(sprintf('There is no files to load in folder %s', $source));
